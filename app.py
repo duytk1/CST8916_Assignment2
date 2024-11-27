@@ -33,7 +33,7 @@ if __name__ == '__main__':
             send_message_azure(client1, 'Dow\'s Lake')
             send_message_azure(client2, 'Fifth Avenue')
             send_message_azure(client3, 'NAC')
-            time.sleep(3)
+            time.sleep(10)
     except KeyboardInterrupt:
         print('Stopped sending messages.')
     finally:
