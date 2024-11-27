@@ -4,36 +4,35 @@ from azure.iot.device import IoTHubDeviceClient, Message
 from datetime import datetime
 import json
 
-CONNECTION_STRING = 'HostName=iothubforassignment.azure-devices.net;DeviceId=Device1;SharedAccessKey=urkO3O+R6tYV0yWCz7wbiDujmzrN28TvY45GjKa1WL8='
-
-def get_telemetry():
-    list_sensors = []
-    list_sensors.append({"Device1": get_sensor('Ottawa')})
-    list_sensors.append({"Device2": get_sensor('Toronto')})
-    list_sensors.append({"Device3": get_sensor('Missisauga')})
-    return json.dumps(list_sensors)
-    
-    
-def get_sensor(location):
-    return {
+def get_telemetry(location):
+    return json.dumps({
         'location': location,
         'iceThickness': random.uniform(20.0, 40.0),
         'surfaceTemperature': random.uniform(-10, 30),
         'snowAccumulation': random.uniform(0, 10),
         'externalTemperature': random.uniform(-10.0, 30.0),
         'timestamp': time.time(),
-    }
+    })
+    
+def create_client(connection_string):
+    return IoTHubDeviceClient.create_from_connection_string(connection_string)
+    
+def send_message_azure(client, location):
+    telemetry = get_telemetry()
+    message = Message(str(telemetry))
+    client.send_message(message)
+    print(f'Sent message: {message}')
     
 if __name__ == '__main__':
-    client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
-
     print('Sending telemetry to IoT Hub...')
     try:
         while True:
-            telemetry = get_telemetry()
-            message = Message(str(telemetry))
-            client.send_message(message)
-            print(f'Sent message: {message}')
+            client1 = create_client('HostName=iothubforassignment.azure-devices.net;DeviceId=Device1;SharedAccessKey=urkO3O+R6tYV0yWCz7wbiDujmzrN28TvY45GjKa1WL8=')
+            send_message_azure(client1, 'Dow\'s Lake')
+            client2 = create_client('HostName=iothubforassignment.azure-devices.net;DeviceId=Device2;SharedAccessKey=m/GFhWL4YC3TJAIkcYJxNtq/K1dXjUDJhum+cXIVIP8=')
+            send_message_azure(client2, 'Fifth Avenue')
+            client3 = create_client('HostName=iothubforassignment.azure-devices.net;DeviceId=Device3;SharedAccessKey=+yNyXihxJTwwqOmjqdc9TUcyDbHkuMWqm+tOc/50hwU=')
+            send_message_azure(client3, 'NAC')
             time.sleep(10)
     except KeyboardInterrupt:
         print('Stopped sending messages.')
