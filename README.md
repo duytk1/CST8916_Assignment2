@@ -9,7 +9,7 @@ The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, n
 
 ## System Architecture
 
-![image](https://github.com/user-attachments/assets/ac4811da-0f3b-4cf7-80da-6b131e5564fb)
+![image](https://github.com/user-attachments/assets/d9cab47a-dc39-4a73-8c4e-2a6b6505cf72)
 
 
 The Rideau Canal Skateway monitoring system consists of simulated IoT sensors at key locations (Dow’s Lake, Fifth Avenue, NAC) that generate data every 10 seconds, measuring ice thickness, surface temperature, snow accumulation, and external temperature. This data is sent to Azure IoT Hub, which manages and securely streams it to Azure Stream Analytics. Stream Analytics processes the data in real time, aggregating metrics like average ice thickness and maximum snow accumulation over 5-minute windows. The processed results are then stored in Azure Blob Storage for further analysis, enabling timely monitoring and ensuring skater safety.
