@@ -13,7 +13,7 @@ The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, r
 
 1. **Open Terminal**:
    - Navigate to the directory where the application files are located.
-    ```bash
+     ```bash
      cd .
      ```
 
