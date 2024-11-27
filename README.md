@@ -82,7 +82,7 @@ if __name__ == '__main__':
         client2.disconnect()
         client3.disconnect()
 ```
-### How to run the python scripts:
+How to run the python scripts:
 
 We install the needed packages to run the script. The most important library to run this script is IoTHubDeviceClient:
 
@@ -90,7 +90,7 @@ We install the needed packages to run the script. The most important library to 
 
 After that, since we have the connection string, the script will run and produce the sensor similation code for the IoT sensor.
 
-#### Here is our queries for our stream analytics 
+Here is our queries for our stream analytics 
 ```
 SELECT
     IoTHub.ConnectionDeviceId AS DeviceId,
