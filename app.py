@@ -37,4 +37,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print('Stopped sending messages.')
     finally:
-        client.disconnect()
+        client1.disconnect()
+        client2.disconnect()
+        client3.disconnect()
