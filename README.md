@@ -91,24 +91,53 @@ We install the needed packages to run the script. The most important library to 
 After that, since we have the connection string, the script will run and produce the sensor similation code for the IoT sensor.
 
 Here is our queries for our stream analytics 
-```
-SELECT
-    IoTHub.ConnectionDeviceId AS DeviceId,
-    AVG(temperature) AS AvgTemperature,
-    AVG(humidity) AS AvgHumidity,
-    AVG(iceThickness) AS AvgIceThickness,
-    AVG(surfaceTemperature) AS AvgSurfaceTemperature,
-    AVG(snowAccumulation) AS AvgSnowAccumulation,
-    AVG(externalTemperature) AS AvgExternalTemperature,
-    System.Timestamp AS EventTime
-INTO
-    [output]
-FROM
-    [input]
-GROUP BY
-    IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
-```
+
 
 ## Step 3: Connect Azure Stream Analytics
+In the Azure Portal, we created a Stream Analytics jobs. Now we set up Input, Output and query to extract data:
+- Define Input: to get data from IoTHub 
+![alt text](screenshots/streamanalytics_input3.png)
 
+![alt text](screenshots/streamanalytics_input4.png)
+
+
+- Define ouput: to push data to storage account 
+
+![alt text](screenshots/streamanalytics_output2.png)
+
+![alt text](screenshots/streamanalytics_output3.png)
+
+- Create the stream analytics query: 
+
+![alt text](screenshots/streamanalytics_query2.png)
+
+This query processes streaming data in Azure Stream Analytics. It calculates the average of  Surface temperature, snowAccumulation,snowAccumulation, externalTemperature from incoming telemetry data grouped by device IoTHub.ConnectionDeviceId over 60-second intervals using a tumbling window. The results include the device ID, the computed averages, and the event timestamp System.Timestamp. The processed data is then written to an output sink specified by output.
+
+Click Save the query. 
+
+- Start the job: 
+
+In the stream analytics job, click run the job 
+![alt text](screenshots/streamanalytics_jobrun.png)
+
+Once the job runs, we can go to check the output
+![alt text](screenshots/streamanalytics_jobrun2.png)
+
+Note: We can go to Monitoring menu to check the status of the job
+
+## Step 4: Verify result 
+Go to your Azure Storage Account.
+Navigate to the container created, verify that processed data is being stored in JSON format.
+
+![alt text](screenshots/streamanalytics_job_checkcontainer.png)
+
+Click on the output JSON file. A new window opens:
+
+![alt text](screenshots/data_generated.png)
+
+Click download JSON to see the result
+
+![alt text](screenshots/data_generated2.png)
+
+We can see the avarage of Surface temperature, snowAccumulation,snowAccumulation, externalTemperature from 3 devices of 3 locations is generated each minute. 
 
