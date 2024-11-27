@@ -1,7 +1,5 @@
 SELECT
     IoTHub.ConnectionDeviceId AS DeviceId,
-    AVG(temperature) AS AvgTemperature,
-    AVG(humidity) AS AvgHumidity,
     AVG(iceThickness) AS AvgIceThickness,
     AVG(surfaceTemperature) AS AvgSurfaceTemperature,
     AVG(snowAccumulation) AS AvgSnowAccumulation,
