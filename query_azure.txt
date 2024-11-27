@@ -1,0 +1,15 @@
+SELECT
+    IoTHub.ConnectionDeviceId AS DeviceId,
+    AVG(temperature) AS AvgTemperature,
+    AVG(humidity) AS AvgHumidity,
+    AVG(iceThickness) AS AvgIceThickness,
+    AVG(surfaceTemperature) AS AvgSurfaceTemperature,
+    AVG(snowAccumulation) AS AvgSnowAccumulation,
+    AVG(externalTemperature) AS AvgExternalTemperature,
+    System.Timestamp AS EventTime
+INTO
+    [output]
+FROM
+    [input]
+GROUP BY
+    IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
