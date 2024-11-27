@@ -1,11 +1,24 @@
-Assignment 2: Real-time Monitoring System for Rideau Canal Skateway
+# Assignment 2: Real-Time Monitoring System for Rideau Canal Skateway
 
-The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, needs constant monitoring to ensure skater safety.
+The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, requires constant monitoring to ensure skater safety. This application provides a real-time monitoring system to collect and transmit data about ice conditions and related metrics.
 
-Prerequisite:
-Python 3.13 or higher
+---
 
-How to run the application:
-Open terminal and navigate to the directory of the app
-Install the requirements with the command:
-pip install -r requirements.txt
+## Prerequisites
+- Python **3.13** or higher installed on your system.
+
+---
+
+## How to Run the Application
+
+1. **Open Terminal**:
+   - Navigate to the directory where the application files are located.
+    ```bash
+     cd .
+     ```
+
+2. **Install Required Dependencies**:
+   - Use the following command to install the necessary Python packages:
+     ```bash
+     pip install -r requirements.txt
+     ```
