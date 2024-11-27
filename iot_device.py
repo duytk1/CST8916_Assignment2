@@ -1,13 +1,18 @@
 import time
 import random
 from azure.iot.device import IoTHubDeviceClient, Message
+from datetime import datetime
 
 CONNECTION_STRING = "Your IoT Hub device connection string here"
 
 def get_telemetry():
     return {
-        "temperature": random.uniform(20.0, 40.0),
-        "humidity": random.uniform(30.0, 70.0)
+        "location": "Dow's Lake",
+        "iceThickness": random.uniform(20.0, 40.0),
+        "surfaceTemperature": random.uniform(-10, 30.0),
+        "snowAccumulation": random.uniform(0.0, 10.0),
+        "externalTemperature": random.uniform(-10.0, 30.0),
+        "timestamp": time.time(),
     }
 
 def main():
