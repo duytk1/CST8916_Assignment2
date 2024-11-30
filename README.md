@@ -11,7 +11,8 @@ The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, n
 
 ![alt text](screenshots/Diagram.png)
 
-## Step 1: Azure set up
+## Implementation detail
+### Step 1: Azure set up
 First, we create a resource group:
 
 ![alt text](screenshots/resourcegroup.png)
@@ -38,7 +39,7 @@ Here we set up Azure Stream Analytics:
 
 ![alt text](screenshots/streamanalytics1.png) ![alt text](screenshots/streamanalytics2.png) ![alt text](screenshots/streamanalytics3.png) ![alt text](screenshots/streamanalytics4.png)
 
-## Step 2: Write the simulation Python Scripts and queries for Azure stream analytics
+### Step 2: Write the simulation Python Scripts and queries for Azure stream analytics
 
 On premise, we prepare a python script for generating data for devices in Azure
 
@@ -104,7 +105,7 @@ After that, since we have the connection string, the script will generate data f
 ![alt text](screenshots/pythoncode_result.png)
 
 
-## Step 3: Connect Azure Stream Analytics
+### Step 3: Connect Azure Stream Analytics
 In the Azure Portal, we created a Stream Analytics jobs. Now we set up Input, Output and query to extract data:
 - Define Input: to get data from IoTHub 
 ![alt text](screenshots/streamanalytics_input3.png)
@@ -143,7 +144,7 @@ Click Save the query.
 
 We can run the query and verify input and output
 
-![alt text](screenshots/streamanalytics_query_testinput.png)
+![alt text](screenshots/streamanalytics_query_testInput.png)
 
 ![alt text](screenshots/streamanalytics_query_testoutput.png)
 
@@ -157,7 +158,7 @@ Once the job runs, we can go to check the output
 
 Note: We can go to Monitoring menu to check the status of the job
 
-## Step 4: Verify result 
+### Step 4: Verify result 
 Go to your Azure Storage Account.
 Navigate to the container created, verify that processed data is being stored in JSON format.
 
@@ -173,7 +174,7 @@ Click download JSON to see the result
 
 We can see the avarage of Surface temperature, snowAccumulation,snowAccumulation, externalTemperature from 3 devices of 3 locations is generated each minute. 
 
-## Step 5: Delete resource 
+### Step 5: Delete resource 
 
 All resources have been deleted successfully:
 ![alt text](screenshots/deleteresource.png)
