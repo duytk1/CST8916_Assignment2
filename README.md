@@ -7,6 +7,10 @@ The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, n
 * Process incoming sensor data to detect unsafe conditions in real time.
 * Store the results in Azure Blob Storage for further analysis.
 
+## Architecture of the system
+
+![alt text](screenshots/Diagram.drawio(1).png)
+
 ## Step 1: Azure set up
 First, we create a resource group:
 
