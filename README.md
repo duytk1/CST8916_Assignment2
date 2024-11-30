@@ -7,20 +7,13 @@ The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, n
 * Process incoming sensor data to detect unsafe conditions in real time.
 * Store the results in Azure Blob Storage for further analysis.
 
-## System Architecture
-
-![image](https://github.com/user-attachments/assets/d9cab47a-dc39-4a73-8c4e-2a6b6505cf72)
-
-
-The Rideau Canal Skateway monitoring system consists of simulated IoT sensors at key locations (Dow’s Lake, Fifth Avenue, NAC) that generate data every 10 seconds, measuring ice thickness, surface temperature, snow accumulation, and external temperature. This data is sent to Azure IoT Hub, which manages and securely streams it to Azure Stream Analytics. Stream Analytics processes the data in real time, aggregating metrics like average ice thickness and maximum snow accumulation over 5-minute windows. The processed results are then stored in Azure Blob Storage for further analysis, enabling timely monitoring and ensuring skater safety.
-
 ## Step 1: Azure set up
 First, we create a resource group:
 
 ![alt text](screenshots/resourcegroup.png)
 ![alt text](screenshots/resourcegroup2.png)
 
-Second of all, we create an IoThub:
+Second of all, we create an IoTHub:
 
 ![alt text](screenshots/IoTHub1.png) ![alt text](screenshots/IoTHub2.png) ![alt text](screenshots/IoTHub3.png) ![alt text](screenshots/IoTHub4.png)
 
@@ -43,7 +36,7 @@ Here we set up Azure Stream Analytics:
 
 ## Step 2: Write the simulation Python Scripts and queries for Azure stream analytics
 
-On premise, we prepare a python script for Azure
+On premise, we prepare a python script for generating data for devices in Azure
 
 ``` py
 import time
@@ -89,15 +82,22 @@ if __name__ == '__main__':
         client2.disconnect()
         client3.disconnect()
 ```
+
+This Python script simulates an IoT device sending telemetry data to an Azure IoT Hub. It uses a connection string to authenticate and connects to the IoT Hub via the IoTHubDeviceClient. The script generates random data through the get_telemetry function and continuously sends this data as messages to the IoT Hub every 10 seconds. It handles keyboard interrupts (e.g., Ctrl+C) to stop the loop gracefully and disconnects the client.
+
 How to run the python scripts:
 
 We install the needed packages to run the script. The most important library to run this script is IoTHubDeviceClient:
 
 ``` pip install -r requirements.txt ```
 
-After that, since we have the connection string, the script will run and produce the sensor similation code for the IoT sensor.
+ Run the program:
 
-Here is our queries for our stream analytics 
+ ``` python app.py ```
+
+After that, since we have the connection string, the script will run generate data for device and push to the IoT Hub devices.
+
+![alt text](screenshots/pythoncode_result.png)
 
 
 ## Step 3: Connect Azure Stream Analytics
@@ -120,11 +120,38 @@ In the Azure Portal, we created a Stream Analytics jobs. Now we set up Input, Ou
 
 This query processes streaming data in Azure Stream Analytics. It calculates the average of  Surface temperature, snowAccumulation,snowAccumulation, externalTemperature from incoming telemetry data grouped by device IoTHub.ConnectionDeviceId over 60-second intervals using a tumbling window. The results include the device ID, the computed averages, and the event timestamp System.Timestamp. The processed data is then written to an output sink specified by output.
 
+SELECT
+
+    IoTHub.ConnectionDeviceId AS DeviceId,
+    AVG(iceThickness) AS AvgIceThickness,
+    AVG(surfaceTemperature) AS AvgSurfaceTemperature,
+    AVG(snowAccumulation) AS AvgSnowAccumulation,
+    AVG(externalTemperature) AS AvgExternalTemperature,
+    System.Timestamp AS EventTime
+
+INTO
+
+    [output]
+
+FROM
+
+    [input]
+    
+GROUP BY
+
+    IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
+
 Click Save the query. 
+
+We can run the query and verify input and output
+
+![alt text](screenshots/streamanalytics_query_testinput.png)
+
+![alt text](screenshots/streamanalytics_query_testoutput.png)
 
 - Start the job: 
 
-In the stream analytics job, click run the job 
+In the stream analytics job, click Start job 
 ![alt text](screenshots/streamanalytics_jobrun.png)
 
 Once the job runs, we can go to check the output
@@ -148,3 +175,14 @@ Click download JSON to see the result
 
 We can see the avarage of Surface temperature, snowAccumulation,snowAccumulation, externalTemperature from 3 devices of 3 locations is generated each minute. 
 
+## Step 5: Delete resource 
+
+All resources have been deleted successfully:
+![alt text](screenshots/deleteresource.png)
+
+## Reflection
+
+We were able to complete the assignment without any challenges encountered. We actually gained hand-on experience how to design and implement a real-time  application using Microsoft Azure services, including IoTHub, Stream analytics and Blob storage. 
+
+## References
+All the screenshots of step by step are included in the screenshots folder 
