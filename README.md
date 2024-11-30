@@ -9,7 +9,7 @@ The Rideau Canal Skateway, a historic and world-renowned attraction in Ottawa, n
 
 ## Architecture of the system
 
-![alt text](screenshots/Diagram.drawio(1).png)
+![alt text](screenshots/Diagram.png)
 
 ## Step 1: Azure set up
 First, we create a resource group:
@@ -91,7 +91,7 @@ This Python script simulates an IoT device sending telemetry data to an Azure Io
 
 How to run the python scripts:
 
-We install the needed packages to run the script. The most important library to run this script is IoTHubDeviceClient:
+We install the required library to run the script. The most important library to run this script is IoTHubDeviceClient which is defined in requirements.txt. To run, create a new Terminal and run below commands: 
 
 ``` pip install -r requirements.txt ```
 
@@ -99,7 +99,7 @@ We install the needed packages to run the script. The most important library to 
 
  ``` python app.py ```
 
-After that, since we have the connection string, the script will run generate data for device and push to the IoT Hub devices.
+After that, since we have the connection string, the script will generate data for devices and push to the IoT Hub.
 
 ![alt text](screenshots/pythoncode_result.png)
 
@@ -123,7 +123,7 @@ In the Azure Portal, we created a Stream Analytics jobs. Now we set up Input, Ou
 ![alt text](screenshots/streamanalytics_query2.png)
 
 This query processes streaming data in Azure Stream Analytics. It calculates the average of  Surface temperature, snowAccumulation,snowAccumulation, externalTemperature from incoming telemetry data grouped by device IoTHub.ConnectionDeviceId over 60-second intervals using a tumbling window. The results include the device ID, the computed averages, and the event timestamp System.Timestamp. The processed data is then written to an output sink specified by output.
-
+```
 SELECT
 
     IoTHub.ConnectionDeviceId AS DeviceId,
@@ -132,19 +132,13 @@ SELECT
     AVG(snowAccumulation) AS AvgSnowAccumulation,
     AVG(externalTemperature) AS AvgExternalTemperature,
     System.Timestamp AS EventTime
-
 INTO
-
     [output]
-
 FROM
-
-    [input]
-    
+    [input]   
 GROUP BY
-
     IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
-
+```
 Click Save the query. 
 
 We can run the query and verify input and output
